@@ -1,4 +1,6 @@
-# Version 1 - Basic Calendar App
+# Version 3 - Basic Calendar App
+import json
+
 
 events = []
 
@@ -31,7 +33,21 @@ def view_events():
             print(f"{event['date']} - {event['title']}{recurring_text}")
         print()
 
+def save_events():
+    with open("events.json", "w") as file:
+        json.dump(events, file)
+    print("Events saved to file.\n")
+
+def load_events():
+    global events
+    try:
+        with open("events.json", "r") as file:
+            events = json.load(file)
+    except FileNotFoundError:
+        events = []
+
 if __name__ == "__main__":
+    load_events()
     while True:
         print("1. Add Event")
         print("2. Delete Event")
@@ -42,8 +58,10 @@ if __name__ == "__main__":
 
         if choice == "1":
             add_event()
+            save_events()
         elif choice == "2":
             delete_event()
+            save_events()
         elif choice == "3":
             view_events()
         elif choice == "4":
