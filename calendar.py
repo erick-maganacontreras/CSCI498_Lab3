@@ -5,7 +5,14 @@ events = []
 def add_event():
     title = input("Enter event title: ")
     date = input("Enter event date (YYYY-MM-DD): ")
-    events.append({"title": title, "date": date})
+    recurring = input("Is this a recurring event? (yes/no): ")
+
+    events.append({
+        "title": title,
+        "date": date,
+        "recurring": recurring.lower() == "yes"
+    })
+
     print("Event added successfully!\n")
 
 def delete_event():
@@ -20,7 +27,8 @@ def view_events():
     else:
         print("\nYour Events:")
         for event in events:
-            print(f"{event['date']} - {event['title']}")
+            recurring_text = " (Recurring)" if event.get("recurring") else ""
+            print(f"{event['date']} - {event['title']}{recurring_text}")
         print()
 
 if __name__ == "__main__":
