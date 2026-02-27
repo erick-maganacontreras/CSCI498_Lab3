@@ -1,6 +1,7 @@
-# Version 4 - Basic Calendar App
+# Version 5 - Basic Calendar App
 import json
 from datetime import datetime
+import csv
 
 events = []
 
@@ -52,6 +53,18 @@ def check_reminders():
         if event["date"] == today:
             print(f"Reminder: You have '{event['title']}' today!")
 
+def export_to_csv():
+    with open("events.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Title", "Date", "Recurring"])
+        for event in events:
+            writer.writerow([
+                event["title"],
+                event["date"],
+                event.get("recurring", False)
+            ])
+    print("Events exported to CSV.\n")
+
 if __name__ == "__main__":
     load_events()
     check_reminders()
@@ -60,6 +73,7 @@ if __name__ == "__main__":
         print("2. Delete Event")
         print("3. View Events")
         print("4. Exit")
+        print("5. Export to CSV")
 
         choice = input("Choose an option: ")
 
@@ -73,5 +87,7 @@ if __name__ == "__main__":
             view_events()
         elif choice == "4":
             break
+        elif choice == "5":
+            export_to_csv()
         else:
             print("Invalid option.\n")
