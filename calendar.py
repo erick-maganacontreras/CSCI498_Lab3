@@ -1,6 +1,6 @@
-# Version 3 - Basic Calendar App
+# Version 4 - Basic Calendar App
 import json
-
+from datetime import datetime
 
 events = []
 
@@ -46,8 +46,15 @@ def load_events():
     except FileNotFoundError:
         events = []
 
+def check_reminders():
+    today = datetime.now().strftime("%Y-%m-%d")
+    for event in events:
+        if event["date"] == today:
+            print(f"Reminder: You have '{event['title']}' today!")
+
 if __name__ == "__main__":
     load_events()
+    check_reminders()
     while True:
         print("1. Add Event")
         print("2. Delete Event")
